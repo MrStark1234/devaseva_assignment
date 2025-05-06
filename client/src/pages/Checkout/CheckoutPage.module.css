@@ -1,0 +1,29 @@
+.checkoutContainer {
+  display: flex;
+  padding: 20px;
+  gap: 40px;
+}
+
+.leftSection {
+  flex: 1;
+  border-right: 1px solid #ccc;
+  padding-right: 20px;
+}
+
+.rightSection {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}

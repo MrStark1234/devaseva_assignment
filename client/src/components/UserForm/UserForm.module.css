@@ -1,0 +1,26 @@
+/* src/components/UserForm/UserForm.module.css */
+.userForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input {
+  padding: 8px;
+  font-size: 1rem;
+}
+
+button {
+  padding: 8px 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+  font-weight: bold;
+}

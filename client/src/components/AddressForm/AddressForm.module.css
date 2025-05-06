@@ -1,0 +1,16 @@
+/* src/components/AddressForm/AddressForm.module.css */
+.addressForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input,
+select {
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.error {
+  color: red;
+}

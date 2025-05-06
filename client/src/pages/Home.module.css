@@ -1,0 +1,14 @@
+.container {
+  padding: 20px;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.viewMore {
+  margin-top: 20px;
+  padding: 10px 20px;
+}
