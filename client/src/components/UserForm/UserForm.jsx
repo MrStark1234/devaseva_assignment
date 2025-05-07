@@ -1,13 +1,15 @@
-// src/components/UserForm/UserForm.jsx
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../../redux/userSlice"; // correct path adjust karo
 import React, { useState } from "react";
 import styles from "./UserForm.module.css";
 import axios from "axios";
 
-const UserForm = () => {
+const UserForm = ({ user, setUser }) => {
+  const dispatch = useDispatch();
+
   const [contact, setContact] = useState("");
   const [otp, setOtp] = useState("");
-  const [step, setStep] = useState("mobile"); // 'mobile' | 'otp' | 'details'
-  const [userDetails, setUserDetails] = useState({ name: "", email: "" });
+  const [step, setStep] = useState("mobile"); // 'mobile' | 'otp' | 'details' | 'done'
   const [userId, setUserId] = useState(null);
   const [error, setError] = useState("");
 
@@ -20,30 +22,73 @@ const UserForm = () => {
     }
 
     try {
-      const res = await axios.get(`/users/identity-exist?contact=${contact}`);
+      const res = await axios.get(
+        `http://localhost:5000/api/user/identity-exist?contact=${contact}`
+      );
       const userExists = res.data.exists;
 
       if (userExists) {
         setUserId(res.data.id);
-        await axios.post("/otp", { contact });
+        await axios.post("http://localhost:5000/api/user/otp", { contact });
         setStep("otp");
       } else {
+        setUser((prev) => ({ ...prev, contact }));
         setStep("details");
       }
       setError("");
-    } catch (err) {
+    } catch {
       setError("Server error. Try again.");
     }
   };
 
+  // const handleOtpSubmit = async () => {
+  //   try {
+  //     const res = await axios.post(
+  //       "http://localhost:5000/api/user/otp-verify",
+  //       { contact, otp }
+  //     );
+
+  //     if (res.data.valid) {
+  //       if (userId) {
+  //         const userRes = await axios.get(
+  //           `http://localhost:5000/api/user/${userId}`
+  //         );
+  //         const { name, email, contact } = userRes.data;
+  //         const fullUser = { name, email, contact };
+  //         setUser(fullUser);
+  //         dispatch(setUserDetails(fullUser));
+  //         localStorage.setItem("userDetails", JSON.stringify(fullUser)); // ✅
+  //       }
+  //       setStep("done");
+  //     } else {
+  //       setError("Invalid OTP");
+  //     }
+  //   } catch {
+  //     setError("OTP verification failed");
+  //   }
+  // };
+
   const handleOtpSubmit = async () => {
     try {
-      const res = await axios.post("/otp-verify", { contact, otp });
+      const res = await axios.post(
+        "http://localhost:5000/api/user/otp-verify",
+        { contact, otp }
+      );
+
       if (res.data.valid) {
-        if (userId) {
-          const userRes = await axios.get(`/users/${userId}`);
-          setUserDetails(userRes.data);
-        }
+        // ✅ Fetch user details using contact number
+        const userRes = await axios.get(
+          `http://localhost:5000/api/user/by-contact?contact=${contact}`
+        );
+        const { _id, name, email, contact: verifiedContact } = userRes.data;
+        const fullUser = { _id, name, email, contact: verifiedContact };
+
+        console.log("Verified User to Save in LocalStorage:", fullUser);
+
+        setUser(fullUser);
+        dispatch(setUserDetails(fullUser));
+        localStorage.setItem("userDetails", JSON.stringify(fullUser));
+
         setStep("done");
       } else {
         setError("Invalid OTP");
@@ -55,12 +100,25 @@ const UserForm = () => {
 
   const handleUserCreate = async () => {
     try {
-      const res = await axios.post("/users", {
-        name: userDetails.name,
-        email: userDetails.email,
+      const res = await axios.post("http://localhost:5000/api/user", {
+        name: user.name,
+        email: user.email,
         contact,
       });
-      await axios.post("/otp", { contact });
+      console.log("User Created Response:", res.data);
+
+      await axios.post("http://localhost:5000/api/user/otp", { contact });
+
+      const newUser = {
+        name: user.name,
+        email: user.email,
+        contact,
+        _id: res.data.id,
+      };
+
+      setUser(newUser);
+      dispatch(setUserDetails(newUser)); // ✅ Update Redux
+      localStorage.setItem("userDetails", JSON.stringify(newUser));
       setUserId(res.data.id);
       setStep("otp");
       setError("");
@@ -81,7 +139,9 @@ const UserForm = () => {
             value={contact}
             onChange={(e) => setContact(e.target.value)}
           />
-          <button onClick={handleMobileSubmit}>Send OTP</button>
+          <button onClick={handleMobileSubmit} className={styles.udbtn}>
+            Send OTP
+          </button>
         </>
       )}
 
@@ -93,7 +153,9 @@ const UserForm = () => {
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
           />
-          <button onClick={handleOtpSubmit}>Verify OTP</button>
+          <button onClick={handleOtpSubmit} className={styles.udbtn}>
+            Verify OTP
+          </button>
         </>
       )}
 
@@ -102,26 +164,28 @@ const UserForm = () => {
           <input
             type="text"
             placeholder="Name"
-            value={userDetails.name}
+            value={user.name}
             onChange={(e) =>
-              setUserDetails({ ...userDetails, name: e.target.value })
+              setUser((prev) => ({ ...prev, name: e.target.value }))
             }
           />
           <input
             type="email"
             placeholder="Email"
-            value={userDetails.email}
+            value={user.email}
             onChange={(e) =>
-              setUserDetails({ ...userDetails, email: e.target.value })
+              setUser((prev) => ({ ...prev, email: e.target.value }))
             }
           />
-          <button onClick={handleUserCreate}>Register & Send OTP</button>
+          <button onClick={handleUserCreate} className={styles.udbtn}>
+            Register & Send OTP
+          </button>
         </>
       )}
 
       {step === "done" && (
         <div className={styles.success}>
-          ✅ User verified: {userDetails.name} ({userDetails.email})
+          ✅ User verified: {user.name} ({user.email})
         </div>
       )}
 

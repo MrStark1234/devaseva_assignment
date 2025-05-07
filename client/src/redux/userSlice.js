@@ -1,12 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const localUser = localStorage.getItem("userDetails");
+
 const initialState = {
-  userDetails: {
-    name: "Suraj",
-    email: "suraj@example.com",
-    phone: "1234567890",
-  },
-  latestOrders: ["12345", "12344", "12343"],
+  userDetails: localUser ? JSON.parse(localUser) : {},
+  latestOrders: JSON.parse(localStorage.getItem("latestOrders")) || [],
   isSidebarOpen: false,
 };
 
@@ -21,9 +19,14 @@ const userSlice = createSlice({
       state.userDetails = {};
       state.latestOrders = [];
       state.isSidebarOpen = false;
+      localStorage.removeItem("userDetails"); // ✅ clear local storage
+    },
+
+    setUserDetails: (state, action) => {
+      state.userDetails = action.payload;
     },
   },
 });
 
-export const { toggleSidebar, logout } = userSlice.actions;
+export const { toggleSidebar, logout, setUserDetails } = userSlice.actions;
 export default userSlice.reducer;

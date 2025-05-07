@@ -1,14 +1,45 @@
 .container {
-  padding: 20px;
+  padding: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.container h2 {
+  font-size: 2rem;
+  color: aliceblue;
+  margin-bottom: 24px;
+}
+.container > p {
+  text-align: left;
+  color: #dd6115;
 }
 
 .grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 24px;
+  justify-content: center;
 }
 
 .viewMore {
-  margin-top: 20px;
-  padding: 10px 20px;
+  margin: 32px auto 0;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #dd6115;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: block;
+}
+
+.viewMore:hover {
+  background-color: #c74f04;
+  transform: translateY(-2px);
+}
+
+.viewMore:active {
+  transform: scale(0.98);
 }

@@ -6,8 +6,10 @@ const {
   sendOtpToUser,
   verifyOtp,
   createUser,
+  getUserByContact,
 } = require("../controllers/userController");
 
+router.get("/by-contact", getUserByContact);
 router.get("/identity-exist", identityExist);
 router.get("/:id", getUserById);
 router.post("/otp", sendOtpToUser);

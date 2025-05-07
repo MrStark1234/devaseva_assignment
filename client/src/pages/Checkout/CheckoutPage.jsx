@@ -1,35 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./CheckoutPage.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import UserForm from "../../components/UserForm/UserForm";
 import AddressForm from "../../components/AddressForm/AddressForm";
 import { useNavigate } from "react-router-dom";
 import { setCheckoutInfo } from "../../redux/checkoutSlice";
+import { removeFromCart } from "../../redux/cartSlice";
 
 const CheckoutPage = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [user, setUser] = useState({ name: "", contact: "", email: "" });
+  const [address, setAddress] = useState({
+    addressLine1: "",
+    addressLine2: "",
+  });
+
   const handleProceedToPayment = () => {
-    // validate user and address fields first
+    // Debug logs to inspect what's missing
+    console.log("User Info:", user);
+    console.log("Address Info:", address);
+
     if (
       !user.name ||
       !user.contact ||
       !user.email ||
-      !address.line1 ||
-      !address.pin
+      !address.city ||
+      !address.state
     ) {
       alert("Please fill all required fields.");
       return;
     }
 
-    // dispatch to store
     dispatch(setCheckoutInfo({ user, address }));
-
-    // navigate to payment
     navigate("/payment");
   };
+
+  const totalAmount = cartItems.reduce(
+    (sum, item) => sum + item.discountedPrice,
+    0
+  );
+  const actualPrice = cartItems.reduce(
+    (sum, item) => sum + item.marketPrice,
+    0
+  );
+  const savedAmount = actualPrice - totalAmount;
 
   return (
     <div className={styles.checkoutContainer}>
@@ -37,27 +54,42 @@ const CheckoutPage = () => {
       <div className={styles.leftSection}>
         <h2>Checkout Page</h2>
         {cartItems.length === 0 ? (
-          <p>No Sevas selected.</p>
+          <p className={styles.para}>No Sevas selected.</p>
         ) : (
           cartItems.map((item) => (
             <div key={item.id} className={styles.cartItem}>
               <img src={item.media} alt={item.title} className={styles.image} />
               <div>
                 <p>{item.title}</p>
-                <button>Remove</button>
+                <p>₹{item.discountedPrice.toLocaleString()}</p>
+                <button onClick={() => dispatch(removeFromCart(item))}>
+                  Remove
+                </button>
               </div>
             </div>
           ))
         )}
+        {cartItems.length > 0 && (
+          <>
+            <p className={styles.saved}>
+              Hurray!🥳 You Saved: ₹{savedAmount.toLocaleString()}
+            </p>
+            <div className={styles.totalSection}>
+              <h3>Total Amount to Pay: ₹{totalAmount.toLocaleString()}</h3>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Right: Forms */}
-      <div className={styles.rightSection}>
-        <UserForm />
-        <hr />
-        <AddressForm />
-        <button onClick={handleProceedToPayment}>Proceed to Payment</button>
-      </div>
+      {cartItems.length > 0 && (
+        <div className={styles.rightSection}>
+          <UserForm user={user} setUser={setUser} />
+          <hr />
+          <AddressForm address={address} setAddress={setAddress} />
+          <button onClick={handleProceedToPayment}>Proceed to Payment</button>
+        </div>
+      )}
     </div>
   );
 };

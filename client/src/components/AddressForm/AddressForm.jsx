@@ -1,17 +1,9 @@
-// src/components/AddressForm/AddressForm.jsx
 import React, { useState } from "react";
 import styles from "./AddressForm.module.css";
 import axios from "axios";
 
-const AddressForm = () => {
+const AddressForm = ({ address, setAddress }) => {
   const [pincode, setPincode] = useState("");
-  const [address, setAddress] = useState({
-    type: "Home",
-    addressLine1: "",
-    addressLine2: "",
-    city: "",
-    state: "",
-  });
   const [loading, setLoading] = useState(false);
   const [pinValid, setPinValid] = useState(false);
   const [error, setError] = useState("");
@@ -23,7 +15,7 @@ const AddressForm = () => {
       setLoading(true);
       setError("");
       try {
-        const res = await axios.get(`/address-by-pincode/${pin}`);
+        const res = await axios.get(`http://localhost:5000/api/${pin}`);
         const { city, state } = res.data;
         setAddress((prev) => ({
           ...prev,

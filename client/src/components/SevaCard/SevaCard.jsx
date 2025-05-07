@@ -12,12 +12,13 @@ const SevaCard = ({ seva }) => {
     <div className={styles.card}>
       <img src={seva.media} alt={seva.title} />
       <h3>{seva.title}</h3>
-      <p>₹{seva.discountedPrice.toLocaleString()}</p>
+      <p>Market Price: ₹{seva.marketPrice}</p>
+      <p>Discounted Price: ₹{seva.discountedPrice}</p>
       <button onClick={() => dispatch(addToCart(seva))} disabled={isInCart}>
         {isInCart ? "Added" : "Add to Cart"}
       </button>
       {isInCart && (
-        <button onClick={() => dispatch(removeFromCart(seva.id))}>
+        <button onClick={() => dispatch(removeFromCart(seva))}>
           Remove from Cart
         </button>
       )}

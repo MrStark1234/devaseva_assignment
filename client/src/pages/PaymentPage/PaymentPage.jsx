@@ -1,8 +1,12 @@
-// src/pages/PaymentPage/PaymentPage.jsx
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styles from "./PaymentPage.module.css";
+import axios from "axios";
 
 const PaymentPage = () => {
+  const address = useSelector((state) => state.checkout.address);
+  const cartItems = useSelector((state) => state.cart.items);
+
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [cardDetails, setCardDetails] = useState({
     number: "",
@@ -39,14 +43,33 @@ const PaymentPage = () => {
     return "";
   };
 
-  const handlePay = () => {
+  const handlePay = async () => {
     const err = paymentMethod === "card" ? validateCard() : validateUpi();
+    if (err) return setError(err);
 
-    if (err) {
-      setError(err);
-    } else {
-      setError("");
-      alert("Payment Successful (Mock)");
+    const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+    const userId = userDetails?._id; // ✅
+
+    if (!userId) {
+      setError("User not found. Please log in again.");
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/order", {
+        items: cartItems,
+        address: address,
+        userId,
+      });
+
+      console.log("Order Created:", res.data); // { orderId, paymentId, amountToPay }
+
+      alert("Payment Successful");
+      localStorage.removeItem("cartItems");
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Payment Error:", error);
+      setError("Payment failed. Please try again.");
     }
   };
 
@@ -95,6 +118,7 @@ const PaymentPage = () => {
           >
             UPI
           </h3>
+          <p>Just click on UPI to enter your UPI i'd</p>
           {paymentMethod === "upi" && (
             <input
               type="text"
@@ -107,7 +131,9 @@ const PaymentPage = () => {
       </div>
 
       {error && <p className={styles.error}>{error}</p>}
-      <button onClick={handlePay}>Pay</button>
+      <button onClick={handlePay} className={styles.paybtn}>
+        Pay
+      </button>
     </div>
   );
 };

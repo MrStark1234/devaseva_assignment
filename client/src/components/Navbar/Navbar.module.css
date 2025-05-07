@@ -2,22 +2,50 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  padding: 16px 32px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 0 0 16px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  color: aliceblue;
+}
+
+.navbar h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .links {
   display: flex;
-  gap: 20px;
-}
-a {
-  text-decoration: none;
-  color: inherit;
+  gap: 24px;
+  align-items: center;
 }
 
-button {
-  background: none;
-  border: none;
+.links a {
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  color: aliceblue;
+}
+
+.links a:hover {
+  color: #c74f04;
+}
+
+.links button {
+  background: inherit;
+
+  color: white;
   cursor: pointer;
-  color: inherit;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.links button:hover {
+  color: #c74f04;
 }

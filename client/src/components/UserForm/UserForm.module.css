@@ -1,26 +1,58 @@
-/* src/components/UserForm/UserForm.module.css */
 .userForm {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  background: #fafafac3;
+  color: black;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
 }
 
 input {
-  padding: 8px;
+  padding: 10px;
   font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-button {
-  padding: 8px 12px;
+input:focus {
+  border-color: #dd6115;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  outline: none;
+}
+
+.udbtn {
+  padding: 10px 14px;
   font-weight: bold;
+  font-size: 1rem;
+  background-color: #dd6115;
+  color: white;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.udbtn:hover {
+  background-color: #c74f04;
+}
+
+.udbtn:disabled {
+  background-color: #c74f04;
+  cursor: not-allowed;
 }
 
 .error {
   color: red;
+  font-size: 0.9rem;
+  margin-top: -6px;
 }
 
 .success {
-  color: green;
+  color: #dd6115;
   font-weight: bold;
+  font-size: 0.95rem;
+  padding: 8px 0;
 }

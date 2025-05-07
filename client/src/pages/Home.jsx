@@ -32,7 +32,8 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Landing Page</h2>
+      <h2>DevaSeva</h2>
+      <p>India’s most trusted platform for live Pujas</p>
       <div className={styles.grid}>
         {sevas.map((seva, index) => (
           <SevaCard key={index} seva={seva} />

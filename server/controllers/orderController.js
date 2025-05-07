@@ -1,7 +1,9 @@
+const Order = require("../models/Order");
+
 exports.createOrder = async (req, res) => {
-  const { items, address } = req.body;
+  const { items, address, userId } = req.body;
+
   try {
-    // Basic mock logic
     const orderId = Math.floor(Math.random() * 100000);
     const paymentId = Math.floor(Math.random() * 100000);
     const amountToPay = items.reduce(
@@ -9,8 +11,26 @@ exports.createOrder = async (req, res) => {
       0
     );
 
-    res.json({ orderId, paymentId, amountToPay });
+    const newOrder = new Order({
+      items,
+      address,
+      orderId,
+      paymentId,
+      amountToPay,
+      userId,
+    });
+
+    await newOrder.save();
+
+    res.status(201).json({
+      message: "Order placed successfully",
+      orderId,
+      paymentId,
+      amountToPay,
+    });
   } catch (err) {
-    res.status(500).json({ error: "Failed to create order" });
+    res
+      .status(500)
+      .json({ error: "Failed to create order", details: err.message });
   }
 };

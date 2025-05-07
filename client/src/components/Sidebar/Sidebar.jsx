@@ -7,6 +7,8 @@ const Sidebar = () => {
   const { userDetails, latestOrders, isSidebarOpen } = useSelector(
     (state) => state.user
   );
+
+  const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
   if (!isSidebarOpen) return null;
@@ -19,17 +21,20 @@ const Sidebar = () => {
         <strong>Email:</strong> {userDetails.email}
       </p>
       <p>
-        <strong>Phone:</strong> {userDetails.phone}
+        <strong>Phone:</strong> {userDetails.contact}
       </p>
       <hr />
       <p>
-        <strong>Latest 3 orders</strong>
+        <strong>Orders in cart</strong>
       </p>
       <ul>
-        {latestOrders.map((id) => (
-          <li key={id}>Order # {id}</li>
+        {cartItems.slice(-3).map((item) => (
+          <li key={item._id}>
+            {item.title} ={">"} Seva Code: {item.code}
+          </li>
         ))}
       </ul>
+
       <button onClick={() => dispatch(logout())}>Logout</button>
     </div>
   );

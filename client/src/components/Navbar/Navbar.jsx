@@ -14,11 +14,13 @@ const Navbar = () => {
   };
   return (
     <div className={styles.navbar}>
-      <h2>Navbar</h2>
+      <h2>DevaSeva-App</h2>
       <div className={styles.links}>
         <Link to="/">Home</Link>
         <Link to="/checkout">Cart</Link>
-        <button onClick={handleUserClick}>User</button>
+        <button onClick={handleUserClick} className={styles.links}>
+          User
+        </button>
       </div>
     </div>
   );

@@ -1,18 +1,19 @@
 .checkoutContainer {
   display: flex;
+  flex-wrap: wrap;
   padding: 20px;
   gap: 40px;
+  align-items: flex-start;
 }
 
+/* Left section: Cart Items */
 .leftSection {
   flex: 1;
   border-right: 1px solid #ccc;
   padding-right: 20px;
 }
-
-.rightSection {
-  flex: 1;
-  padding-left: 20px;
+.para {
+  color: aliceblue;
 }
 
 .cartItem {
@@ -20,10 +21,76 @@
   align-items: center;
   gap: 16px;
   margin-bottom: 16px;
+  background: #ffffffdd;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  color: black;
+}
+
+.cartItem:hover {
+  transform: translateY(-2px);
 }
 
 .image {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   object-fit: cover;
+  border-radius: 6px;
+}
+
+/* Remove Button */
+.cartItem button {
+  background-color: #dd6115;
+  border: none;
+  padding: 6px 12px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease;
+}
+
+.cartItem button:hover {
+  background-color: #c74f04;
+}
+
+.totalSection {
+  margin-top: 20px;
+  padding: 10px;
+
+  border-top: 1px solid #ccc;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.saved {
+  text-align: left;
+  color: aliceblue;
+}
+
+/* Right section: Forms */
+.rightSection {
+  flex: 1;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Proceed to Payment */
+.rightSection button {
+  align-self: flex-start;
+  background-color: #dd6115;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.rightSection button:hover {
+  background-color: #c74f04;
 }
