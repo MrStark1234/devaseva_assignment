@@ -24,14 +24,12 @@ select:focus {
   border-color: #dd6115;
 }
 
-/* Subtle read-only style */
 input[readonly] {
   background-color: #f5f5f5;
   color: #666;
   cursor: not-allowed;
 }
 
-/* Error message */
 .error {
   color: red;
   font-size: 0.9rem;

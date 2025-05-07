@@ -12,7 +12,7 @@ const getAllSevas = async (req, res) => {
 const getSevaByCode = async (req, res) => {
   try {
     const seva = await Seva.findOne({ code: req.params.code });
-    if (!seva) return res.status(404).json({ message: "Seva not found" });
+    if (!seva) return res.status(404).json({ message: "Seva not found" }); // Not used
     res.json(seva);
   } catch (err) {
     res.status(500).json({ message: "Server Error" });

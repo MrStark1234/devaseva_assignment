@@ -4,9 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
 
 const Sidebar = () => {
-  const { userDetails, latestOrders, isSidebarOpen } = useSelector(
-    (state) => state.user
-  );
+  const { userDetails, isSidebarOpen } = useSelector((state) => state.user);
 
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();

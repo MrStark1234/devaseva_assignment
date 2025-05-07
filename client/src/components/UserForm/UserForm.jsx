@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { setUserDetails } from "../../redux/userSlice"; // correct path adjust karo
+import { setUserDetails } from "../../redux/userSlice";
 import React, { useState } from "react";
 import styles from "./UserForm.module.css";
 import axios from "axios";
@@ -41,33 +41,6 @@ const UserForm = ({ user, setUser }) => {
     }
   };
 
-  // const handleOtpSubmit = async () => {
-  //   try {
-  //     const res = await axios.post(
-  //       "http://localhost:5000/api/user/otp-verify",
-  //       { contact, otp }
-  //     );
-
-  //     if (res.data.valid) {
-  //       if (userId) {
-  //         const userRes = await axios.get(
-  //           `http://localhost:5000/api/user/${userId}`
-  //         );
-  //         const { name, email, contact } = userRes.data;
-  //         const fullUser = { name, email, contact };
-  //         setUser(fullUser);
-  //         dispatch(setUserDetails(fullUser));
-  //         localStorage.setItem("userDetails", JSON.stringify(fullUser)); // ✅
-  //       }
-  //       setStep("done");
-  //     } else {
-  //       setError("Invalid OTP");
-  //     }
-  //   } catch {
-  //     setError("OTP verification failed");
-  //   }
-  // };
-
   const handleOtpSubmit = async () => {
     try {
       const res = await axios.post(
@@ -76,7 +49,6 @@ const UserForm = ({ user, setUser }) => {
       );
 
       if (res.data.valid) {
-        // ✅ Fetch user details using contact number
         const userRes = await axios.get(
           `http://localhost:5000/api/user/by-contact?contact=${contact}`
         );
@@ -117,7 +89,7 @@ const UserForm = ({ user, setUser }) => {
       };
 
       setUser(newUser);
-      dispatch(setUserDetails(newUser)); // ✅ Update Redux
+      dispatch(setUserDetails(newUser));
       localStorage.setItem("userDetails", JSON.stringify(newUser));
       setUserId(res.data.id);
       setStep("otp");

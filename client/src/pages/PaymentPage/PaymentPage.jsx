@@ -48,7 +48,7 @@ const PaymentPage = () => {
     if (err) return setError(err);
 
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-    const userId = userDetails?._id; // ✅
+    const userId = userDetails?._id;
 
     if (!userId) {
       setError("User not found. Please log in again.");

@@ -19,7 +19,6 @@ const CheckoutPage = () => {
   });
 
   const handleProceedToPayment = () => {
-    // Debug logs to inspect what's missing
     console.log("User Info:", user);
     console.log("Address Info:", address);
 
