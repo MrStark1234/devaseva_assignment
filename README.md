@@ -1,5 +1,7 @@
 # 🛕 Devaseva - Seva Booking Application (MERN Stack)
 
+**Deployed Link:** https://devaseva-app.vercel.app/
+
 A full-stack seva booking application built using the MERN stack (MongoDB, Express, React, Node.js) with OTP-based user authentication, address autofill, order creation, and a simulated payment system.
 
 ---
