@@ -15,7 +15,9 @@ const AddressForm = ({ address, setAddress }) => {
       setLoading(true);
       setError("");
       try {
-        const res = await axios.get(`http://localhost:5000/api/${pin}`);
+        const res = await axios.get(
+          `https://devaseva-backend.onrender.com/api/${pin}`
+        );
         const { city, state } = res.data;
         setAddress((prev) => ({
           ...prev,

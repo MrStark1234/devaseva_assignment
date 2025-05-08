@@ -11,7 +11,9 @@ const Home = () => {
 
   const fetchSevas = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/sevas`);
+      const res = await axios.get(
+        `https://devaseva-backend.onrender.com/api/sevas`
+      );
       const allSevas = res.data;
       const paginated = allSevas.slice(0, page * 10);
       setSevas(paginated);

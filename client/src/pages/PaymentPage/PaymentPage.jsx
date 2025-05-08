@@ -56,11 +56,14 @@ const PaymentPage = () => {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/order", {
-        items: cartItems,
-        address: address,
-        userId,
-      });
+      const res = await axios.post(
+        "https://devaseva-backend.onrender.com/api/order",
+        {
+          items: cartItems,
+          address: address,
+          userId,
+        }
+      );
 
       console.log("Order Created:", res.data); // { orderId, paymentId, amountToPay }
 

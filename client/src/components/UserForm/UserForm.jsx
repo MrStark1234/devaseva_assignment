@@ -23,15 +23,18 @@ const UserForm = ({ user, setUser }) => {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/user/identity-exist?contact=${contact}`
+        `https://devaseva-backend.onrender.com/api/user/identity-exist?contact=${contact}`
       );
       const userExists = res.data.exists;
 
       if (userExists) {
         setUserId(res.data.id);
-        const otpRes = await axios.post("http://localhost:5000/api/user/otp", {
-          contact,
-        });
+        const otpRes = await axios.post(
+          "https://devaseva-backend.onrender.com/api/user/otp",
+          {
+            contact,
+          }
+        );
         if (otpRes.data.otp) {
           alert(`Your OTP is: ${otpRes.data.otp}`); // Alert OTP here
         }
@@ -49,13 +52,13 @@ const UserForm = ({ user, setUser }) => {
   const handleOtpSubmit = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/user/otp-verify",
+        "https://devaseva-backend.onrender.com/api/user/otp-verify",
         { contact, otp }
       );
 
       if (res.data.valid) {
         const userRes = await axios.get(
-          `http://localhost:5000/api/user/by-contact?contact=${contact}`
+          `https://devaseva-backend.onrender.com/api/user/by-contact?contact=${contact}`
         );
         const { _id, name, email, contact: verifiedContact } = userRes.data;
         const fullUser = { _id, name, email, contact: verifiedContact };
@@ -77,16 +80,22 @@ const UserForm = ({ user, setUser }) => {
 
   const handleUserCreate = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/user", {
-        name: user.name,
-        email: user.email,
-        contact,
-      });
+      const res = await axios.post(
+        "https://devaseva-backend.onrender.com/api/user",
+        {
+          name: user.name,
+          email: user.email,
+          contact,
+        }
+      );
       console.log("User Created Response:", res.data);
 
-      const otpRes = await axios.post("http://localhost:5000/api/user/otp", {
-        contact,
-      });
+      const otpRes = await axios.post(
+        "https://devaseva-backend.onrender.com/api/user/otp",
+        {
+          contact,
+        }
+      );
       if (otpRes.data.otp) {
         alert(`Your OTP is: ${otpRes.data.otp}`); //  Alert OTP here
       }
