@@ -51,7 +51,7 @@ npm install
 - Then run:
 
 ```bash
-nodemon server
+node server
 ```
 
 ### 3. Start the Frontend
