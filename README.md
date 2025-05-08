@@ -66,6 +66,33 @@ npm run dev
 
 ---
 
+## 🔍 Known Limitations / Important Notes
+
+- **🏠 Address Autofill (PIN Code):**
+
+  - Currently, the address autofill is hardcoded to work only for 560001 PIN code. If you enter any other PIN, the system won't return any data.
+
+    - 📌 This logic is implemented in the backend route:
+
+    ```js
+    if (pinCode === "560001") {
+      return res.json({
+        city: "Bangalore",
+        state: "Karnataka",
+        country: "India",
+      });
+    }
+    ```
+
+- **💳 Payment System is Simulated:**
+
+  - There is no real payment gateway like Razorpay/Stripe yet. Payment ID and Order ID are generated randomly for demo purposes.
+
+- **🔒 OTP is mocked:**
+  - There's no SMS gateway integrated. OTP verification is simulated and may always accept a random 6 digit OTP inside `server terminal`.
+
+---
+
 ## 🧪 Test Flow (Sample)
 
 - Go to Home Page and add seva items to cart

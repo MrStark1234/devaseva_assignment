@@ -29,7 +29,12 @@ const UserForm = ({ user, setUser }) => {
 
       if (userExists) {
         setUserId(res.data.id);
-        await axios.post("http://localhost:5000/api/user/otp", { contact });
+        const otpRes = await axios.post("http://localhost:5000/api/user/otp", {
+          contact,
+        });
+        if (otpRes.data.otp) {
+          alert(`Your OTP is: ${otpRes.data.otp}`); // Alert OTP here
+        }
         setStep("otp");
       } else {
         setUser((prev) => ({ ...prev, contact }));
@@ -79,7 +84,12 @@ const UserForm = ({ user, setUser }) => {
       });
       console.log("User Created Response:", res.data);
 
-      await axios.post("http://localhost:5000/api/user/otp", { contact });
+      const otpRes = await axios.post("http://localhost:5000/api/user/otp", {
+        contact,
+      });
+      if (otpRes.data.otp) {
+        alert(`Your OTP is: ${otpRes.data.otp}`); //  Alert OTP here
+      }
 
       const newUser = {
         name: user.name,

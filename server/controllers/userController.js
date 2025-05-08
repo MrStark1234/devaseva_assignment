@@ -19,10 +19,13 @@ exports.getUserById = async (req, res) => {
 
 exports.sendOtpToUser = async (req, res) => {
   const { contact } = req.body;
-  const success = await sendOtp(contact);
-  success
-    ? res.json({ message: "OTP sent" })
-    : res.status(500).json({ message: "Failed to send OTP" });
+  const otp = await sendOtp(contact);
+
+  if (otp) {
+    res.json({ message: "OTP sent", otp }); // send OTP in response
+  } else {
+    res.status(500).json({ message: "Failed to send OTP" });
+  }
 };
 
 exports.getUserByContact = async (req, res) => {

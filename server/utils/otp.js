@@ -4,7 +4,7 @@ exports.sendOtp = async (contact) => {
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   otpStore.set(contact, otp);
   console.log(`OTP for ${contact}: ${otp}`); // simulate SMS send
-  return true;
+  return otp;
 };
 
 exports.verifyOtp = (contact, otp) => {
